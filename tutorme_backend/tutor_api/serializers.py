@@ -12,8 +12,8 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
 		model = User
 		fields = ('id', 'created', 'name', 'email', 'phone')
 
-class ClassSerializer(serializers.HyperlinkedModelSerializer):
-	major = serializers.HyperlinkedRelatedField(queryset=Department.objects.all(), read_only=False, view_name='department-detail', lookup_field='shortName')
+class ClassSerializer(serializers.ModelSerializer):
+	# major = serializers.HyperlinkedRelatedField(queryset=Department.objects.all(), read_only=False, view_name='department-detail', lookup_field='shortName')
 	# school = serializers.HyperlinkedRelatedField(read_only=True, view_name='school-detail')
 	class Meta:
 		model = Class

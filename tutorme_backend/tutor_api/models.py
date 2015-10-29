@@ -4,7 +4,7 @@ from django.db import models
 
 class School(models.Model):
 	created = models.DateTimeField(auto_now_add=True)
-	name = models.TextField()
+	name = models.TextField(unique=True)
 	zipCode = models.IntegerField()
 	def __unicode__(self):
 		return self.name
@@ -26,6 +26,6 @@ class Department(models.Model):
 class Class(models.Model):
 	created = models.DateTimeField(auto_now_add=True)
 	number = models.IntegerField()
-	major = models.OneToOneField(Department, related_name='classes')
-	school = models.OneToOneField(School, related_name='classes')
+	major = models.ForeignKey(Department, related_name='classes', to_field='shortName')
+	school = models.ForeignKey(School, related_name='classes')
 
