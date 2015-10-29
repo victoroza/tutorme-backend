@@ -1,0 +1,1 @@
+web: python tutorme_backend/manage.py runserver
