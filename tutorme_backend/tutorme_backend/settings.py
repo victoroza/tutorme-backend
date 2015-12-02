@@ -98,8 +98,6 @@ DATABASES = {
     }
 }
 
-<<<<<<< Updated upstream
-=======
 REST_FRAMEWORK = {
     'DEFAULT_FILTER_BACKENDS': ('rest_framework.filters.DjangoFilterBackend',),
     # 'DEFAULT_AUTHENTICATION_CLASSES': (
@@ -107,7 +105,6 @@ REST_FRAMEWORK = {
     #     'rest_framework.authentication.TokenAuthentication',
     # )
 }
->>>>>>> Stashed changes
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
