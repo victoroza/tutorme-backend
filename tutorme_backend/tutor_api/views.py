@@ -1,6 +1,6 @@
 from django.shortcuts import render
 
-from rest_framework import generics
+from rest_framework import generics, filters
 
 from tutor_api.models import School, User, Class, Department
 
