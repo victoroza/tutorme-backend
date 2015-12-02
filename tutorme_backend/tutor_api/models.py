@@ -1,6 +1,39 @@
 from django.db import models
+from django.contrib.auth.models import AbstractUser, BaseUserManager
 
 # Create your models here.]
+class MyUserManager(BaseUserManager):
+    def create_user(self, email, date_of_birth, password=None):
+        """
+        Creates and saves a User with the given email, date of
+        birth and password.
+        """
+        if not email:
+            raise ValueError('Users must have an email address')
+
+        user = self.model(
+            email=MyUserManager.normalize_email(email),
+            date_of_birth=date_of_birth,
+        )
+
+        user.set_password(password)
+        user.save(using=self._db)
+        print "HERE"
+        return user
+
+    def create_superuser(self, email, date_of_birth, password):
+        """
+        Creates and saves a superuser with the given email, date of
+        birth and password.
+        """
+        print "HERE"
+        user = self.create_user(email,
+            password=password,
+            date_of_birth=date_of_birth
+        )
+        user.is_admin = True
+        user.save(using=self._db)
+        return user
 
 class School(models.Model):
 	created = models.DateTimeField(auto_now_add=True)
@@ -9,12 +42,18 @@ class School(models.Model):
 	def __unicode__(self):
 		return self.name
 
-
-class User(models.Model):
+class User(AbstractUser):
+	objects = MyUserManager()
 	created = models.DateTimeField(auto_now_add=True)
-	name = models.CharField(max_length=100)
-	email = models.EmailField(max_length=254)
+	# first_name = models.CharField(max_length=20)
+	# last_name = models.CharField(max_length=20)
+	# email = models.EmailField(max_length=254, unique=True)
 	phone = models.IntegerField()
+	# is_admin = models.BooleanField(default=False)
+	# is_active = models.BooleanField(default=True)
+	# is_superuser = models.BooleanField(default=False)
+	class Meta:
+		db_table = 'auth_user'
 
 class Department(models.Model):
 	shortName = models.CharField(unique=True, max_length=10)
@@ -29,3 +68,11 @@ class Class(models.Model):
 	major = models.ForeignKey(Department, related_name='classes', to_field='shortName')
 	school = models.ForeignKey(School, related_name='classes')
 
+class Appintment(models.Model):
+	created = models.DateTimeField(auto_now_add=True)
+	aClass = models.ForeignKey(Class, related_name='appointments')
+	# tutee = models.ForeignKey(User, related_name='appointments_tutee')
+	# tutor = models.ForeignKey(User, related_name='appointments_tutor')
+	time = models.DateTimeField()
+	location = models.TextField()
+	notes = models.TextField()

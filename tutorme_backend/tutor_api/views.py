@@ -27,10 +27,44 @@ class ClassDetail(generics.RetrieveUpdateDestroyAPIView):
 class UserList(generics.ListCreateAPIView):
 	queryset = User.objects.all()
 	serializer_class = UserSerializer
+<<<<<<< Updated upstream
+=======
+	filter_backends = (filters.DjangoFilterBackend, filters.OrderingFilter, filters.SearchFilter)
+	filter_fields = ('first_name', 'email','phone')
+	ordering_fields = '__all__'
+	ordering = ('id')
+	search_fields= ('first_name','email', 'phone')
+	def pre_save(self, obj):
+		print "CALLED"
+		obj.password = make_password(obj.password)
+>>>>>>> Stashed changes
 
 class UserDetail(generics.RetrieveUpdateDestroyAPIView):
 	queryset = User.objects.all()
 	serializer_class = UserSerializer
+<<<<<<< Updated upstream
+=======
+	filter_backends = (filters.DjangoFilterBackend,)
+	def pre_save(self, obj):
+		print "CALLED"
+		obj.password = make_password(obj.password)
+
+class DepartmentList(generics.ListCreateAPIView):
+	queryset = Department.objects.all()
+	serializer_class = DepartmentSerializer
+	lookup_field = "shortName"
+	filter_backends = (filters.DjangoFilterBackend, filters.OrderingFilter, filters.SearchFilter)
+	filter_fields = ('name', 'shortName')
+	ordering_fields = '__all__'
+	ordering = ('id')
+	search_fields= ('name','shortName',)
+
+class DepartmentDetail(generics.RetrieveUpdateDestroyAPIView):
+	queryset = Department.objects.all()
+	serializer_class = DepartmentSerializer
+	lookup_field = "shortName"
+	filter_backends = (filters.DjangoFilterBackend,)
+>>>>>>> Stashed changes
 
 class DepartmentList(generics.ListCreateAPIView):
 	queryset = Department.objects.all()
