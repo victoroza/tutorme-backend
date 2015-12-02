@@ -1,4 +1,4 @@
-from django.shortcuts import render
+import django_filters
 
 from rest_framework import generics, filters
 
