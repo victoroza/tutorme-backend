@@ -26,7 +26,7 @@ class SchoolDetail(generics.RetrieveUpdateDestroyAPIView):
 class ClassList(generics.ListCreateAPIView):
 	queryset = Class.objects.all()
 	serializer_class = ClassSerializer
-	filter_backends = (filters.DjangoFilterBackend,)
+	filter_backends = (filters.DjangoFilterBackend, filters.OrderingFilter)
 	filter_fields = ('number', 'major')
 	ordering_fields = '__all__'
 	ordering = ('id')
@@ -39,7 +39,7 @@ class ClassDetail(generics.RetrieveUpdateDestroyAPIView):
 class UserList(generics.ListCreateAPIView):
 	queryset = User.objects.all()
 	serializer_class = UserSerializer
-	filter_backends = (filters.DjangoFilterBackend,)
+	filter_backends = (filters.DjangoFilterBackend, filters.OrderingFilter)
 	filter_fields = ('name', 'email','phone')
 	ordering_fields = '__all__'
 	ordering = ('id')
@@ -53,7 +53,7 @@ class DepartmentList(generics.ListCreateAPIView):
 	queryset = Department.objects.all()
 	serializer_class = DepartmentSerializer
 	lookup_field = "shortName"
-	filter_backends = (filters.DjangoFilterBackend,)
+	filter_backends = (filters.DjangoFilterBackend, filters.OrderingFilter)
 	filter_fields = ('name', 'shortName')
 	ordering_fields = '__all__'
 	ordering = ('id')
