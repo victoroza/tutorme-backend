@@ -1,13 +1,8 @@
 import django_filters
-<<<<<<< HEAD
 
 from rest_framework import generics, filters, permissions
-=======
 
 from django.shortcuts import render
-
-from rest_framework import generics, filters
->>>>>>> master
 
 from tutor_api.models import School, User, Class, Department, Appointment
 
