@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from tutor_api.models import School, User, Class, Department
+from tutor_api.models import School, User, Class, Department, Appointment
 
 from django.contrib.auth.hashers import make_password
 
@@ -19,9 +19,9 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
 		model = User
 		fields = ('id', 'created', 'first_name', 'last_name', 'is_staff', 
 			'is_active', 'is_superuser','email', 'phone', 'password', 'username')
+		lookup_field = 'username'
 		extra_kwargs = {'password': {'write_only': True}}
 	def create(self, validated_data):
-		print 'here'
 		user = User(**validated_data)
 		user.set_password(validated_data['password'])
 		user.save()
@@ -52,8 +52,8 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
 		return instance
 
 class ClassSerializer(serializers.ModelSerializer):
-	# major = serializers.HyperlinkedRelatedField(queryset=Department.objects.all(), read_only=False, view_name='department-detail', lookup_field='shortName')
-	# school = serializers.HyperlinkedRelatedField(read_only=True, view_name='school-detail')
+	major = serializers.HyperlinkedRelatedField(queryset=Department.objects.all(), read_only=False, view_name='department-detail', lookup_field='shortName')
+	school = serializers.HyperlinkedRelatedField(queryset=School.objects.all(), read_only=False, view_name='school-detail')
 	class Meta:
 		model = Class
 		fields = ('id', 'created', 'number', 'major', 'school')
@@ -70,4 +70,11 @@ class DepartmentSerializer(serializers.HyperlinkedModelSerializer):
 		# 	'url' : {'view_name': 'department-detail', 'lookup_field': 'shortName'}
 		# }
 
-# class AppointmentSerializer(serializers.)
+class AppointmentSerializer(serializers.ModelSerializer):
+	aClass = serializers.HyperlinkedRelatedField(queryset=Class.objects.all(), read_only=False, view_name='class-detail')
+	tutee = serializers.HyperlinkedRelatedField(queryset=User.objects.all(), read_only=False, view_name='user-detail', lookup_field='username')
+	tutor = serializers.HyperlinkedRelatedField(queryset=User.objects.all(), read_only=False, view_name='user-detail', lookup_field='username')
+	class Meta:
+		model = Appointment
+		fields = ('id', 'created', 'aClass', 'time', 'location', 'notes',
+			'tutor', 'tutee')

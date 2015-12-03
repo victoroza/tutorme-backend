@@ -45,13 +45,7 @@ class School(models.Model):
 class User(AbstractUser):
 	objects = MyUserManager()
 	created = models.DateTimeField(auto_now_add=True)
-	# first_name = models.CharField(max_length=20)
-	# last_name = models.CharField(max_length=20)
-	# email = models.EmailField(max_length=254, unique=True)
-	phone = models.FloatField()
-	# is_admin = models.BooleanField(default=False)
-	# is_active = models.BooleanField(default=True)
-	# is_superuser = models.BooleanField(default=False)
+	phone = models.BigIntegerField()
 	class Meta:
 		db_table = 'auth_user'
 
@@ -67,12 +61,14 @@ class Class(models.Model):
 	number = models.IntegerField()
 	major = models.ForeignKey(Department, related_name='classes', to_field='shortName')
 	school = models.ForeignKey(School, related_name='classes')
+	def __unicode__(self):
+		return self.major.shortName+str(self.number)+'-'+str(self.school.name)
 
-class Appintment(models.Model):
+class Appointment(models.Model):
 	created = models.DateTimeField(auto_now_add=True)
 	aClass = models.ForeignKey(Class, related_name='appointments')
-	# tutee = models.ForeignKey(User, related_name='appointments_tutee')
-	# tutor = models.ForeignKey(User, related_name='appointments_tutor')
+	tutee = models.ForeignKey(User, related_name='appointments_tutee', to_field='username')
+	tutor = models.ForeignKey(User, related_name='appointments_tutor', to_field='username')
 	time = models.DateTimeField()
 	location = models.TextField()
 	notes = models.TextField()
