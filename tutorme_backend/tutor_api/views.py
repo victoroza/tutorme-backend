@@ -1,20 +1,29 @@
 import django_filters
+<<<<<<< HEAD
+
+from rest_framework import generics, filters, permissions
+=======
 
 from django.shortcuts import render
 
 from rest_framework import generics, filters
+>>>>>>> master
 
-from tutor_api.models import School, User, Class, Department
+from tutor_api.models import School, User, Class, Department, Appointment
 
-from tutor_api.serializers import SchoolSerializer, UserSerializer, ClassSerializer, DepartmentSerializer
+from tutor_api.serializers import SchoolSerializer, UserSerializer, ClassSerializer, DepartmentSerializer, AppointmentSerializer
 
 # Create your views here.
+
+
+#Permissions:
+
 
 class SchoolList(generics.ListCreateAPIView):
 	queryset = School.objects.all()
 	serializer_class = SchoolSerializer
-	filter_backends = (filters.DjangoFilterBackend,filters.OrderingFilter, filters.SearchFilter)
-	filter_fields = ('name', 'zipCode')
+	filter_backends = (filters.DjangoFilterBackend, filters.OrderingFilter, filters.SearchFilter)
+	filter_fields = ('id', 'name', 'zipCode')
 	ordering_fields = '__all__'
 	ordering = ('id')
 	search_fields= ('name','zipCode')
@@ -28,10 +37,10 @@ class ClassList(generics.ListCreateAPIView):
 	queryset = Class.objects.all()
 	serializer_class = ClassSerializer
 	filter_backends = (filters.DjangoFilterBackend, filters.OrderingFilter, filters.SearchFilter)
-	filter_fields = ('number', 'major__shortName')
+	filter_fields = ('id','number', 'major__shortName','school__name')
 	ordering_fields = '__all__'
 	ordering = ('id')
-	search_fields= ('number','major__shortName', 'school__name',)
+	search_fields= ('number','major__shortName', 'school__name')
 
 class ClassDetail(generics.RetrieveUpdateDestroyAPIView):
 	queryset = Class.objects.all()
@@ -41,16 +50,17 @@ class ClassDetail(generics.RetrieveUpdateDestroyAPIView):
 class UserList(generics.ListCreateAPIView):
 	queryset = User.objects.all()
 	serializer_class = UserSerializer
+	lookup_field = "username"
 	filter_backends = (filters.DjangoFilterBackend, filters.OrderingFilter, filters.SearchFilter)
-	filter_fields = ('name', 'email','phone')
+	filter_fields = ('id', 'first_name', 'last_name','phone', 'email', 'username')
 	ordering_fields = '__all__'
 	ordering = ('id')
-	search_fields= ('name','email', 'phone')
+	search_fields= ('first_name','email', 'phone', 'last_name', 'username')
 
 class UserDetail(generics.RetrieveUpdateDestroyAPIView):
 	queryset = User.objects.all()
 	serializer_class = UserSerializer
-	filter_backends = (filters.DjangoFilterBackend,)
+	lookup_field = "username"
 
 class DepartmentList(generics.ListCreateAPIView):
 	queryset = Department.objects.all()
@@ -68,3 +78,15 @@ class DepartmentDetail(generics.RetrieveUpdateDestroyAPIView):
 	lookup_field = "shortName"
 	filter_backends = (filters.DjangoFilterBackend,)
 
+class AppointmentList(generics.ListCreateAPIView):
+	queryset = Appointment.objects.all()
+	serializer_class = AppointmentSerializer
+	filter_backends = (filters.DjangoFilterBackend, filters.OrderingFilter, filters.SearchFilter)
+	filter_fields = ('id', 'aClass__number', 'tutee__username', 'tutor__username', 'time', 'location', 'notes')
+	ordering_fields = '__all__'
+	ordering = ('id')
+	search_fields= ('aClass__number', 'tutee__username', 'tutor__username', 'time', 'location', 'notes')
+
+class AppointmentDetail(generics.RetrieveUpdateDestroyAPIView):
+	queryset = Appointment.objects.all()
+	serializer_class = AppointmentSerializer
