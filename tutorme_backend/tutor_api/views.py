@@ -1,12 +1,16 @@
 import django_filters
 
-from rest_framework import generics, filters
+from rest_framework import generics, filters, permissions
 
 from tutor_api.models import School, User, Class, Department, Appointment
 
 from tutor_api.serializers import SchoolSerializer, UserSerializer, ClassSerializer, DepartmentSerializer, AppointmentSerializer
 
 # Create your views here.
+
+
+#Permissions:
+
 
 class SchoolList(generics.ListCreateAPIView):
 	queryset = School.objects.all()
