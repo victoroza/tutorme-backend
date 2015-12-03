@@ -1,6 +1,13 @@
 import django_filters
+<<<<<<< HEAD
 
 from rest_framework import generics, filters, permissions
+=======
+
+from django.shortcuts import render
+
+from rest_framework import generics, filters
+>>>>>>> master
 
 from tutor_api.models import School, User, Class, Department, Appointment
 
@@ -24,6 +31,7 @@ class SchoolList(generics.ListCreateAPIView):
 class SchoolDetail(generics.RetrieveUpdateDestroyAPIView):
 	queryset = School.objects.all()
 	serializer_class = SchoolSerializer
+	filter_backends = (filters.DjangoFilterBackend,)
 
 class ClassList(generics.ListCreateAPIView):
 	queryset = Class.objects.all()
@@ -37,6 +45,7 @@ class ClassList(generics.ListCreateAPIView):
 class ClassDetail(generics.RetrieveUpdateDestroyAPIView):
 	queryset = Class.objects.all()
 	serializer_class = ClassSerializer
+	filter_backends = (filters.DjangoFilterBackend,)
 
 class UserList(generics.ListCreateAPIView):
 	queryset = User.objects.all()
@@ -48,12 +57,10 @@ class UserList(generics.ListCreateAPIView):
 	ordering = ('id')
 	search_fields= ('first_name','email', 'phone', 'last_name', 'username')
 
-
 class UserDetail(generics.RetrieveUpdateDestroyAPIView):
 	queryset = User.objects.all()
 	serializer_class = UserSerializer
 	lookup_field = "username"
-
 
 class DepartmentList(generics.ListCreateAPIView):
 	queryset = Department.objects.all()
@@ -69,6 +76,7 @@ class DepartmentDetail(generics.RetrieveUpdateDestroyAPIView):
 	queryset = Department.objects.all()
 	serializer_class = DepartmentSerializer
 	lookup_field = "shortName"
+	filter_backends = (filters.DjangoFilterBackend,)
 
 class AppointmentList(generics.ListCreateAPIView):
 	queryset = Appointment.objects.all()
