@@ -61,3 +61,7 @@ env.txt
 
 #DBs
 *.sqlite3
+
+
+#migrations
+tutorme_backend/tutor_api/migrations/

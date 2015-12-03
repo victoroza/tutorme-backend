@@ -41,7 +41,7 @@ INSTALLED_APPS = (
     'tutor_api',
     'corsheaders',
     'crispy_forms',
-    # 'rest_framework.authtoken'
+    'rest_framework.authtoken'
 )
 
 MIDDLEWARE_CLASSES = (
@@ -100,10 +100,10 @@ DATABASES = {
 
 REST_FRAMEWORK = {
     'DEFAULT_FILTER_BACKENDS': ('rest_framework.filters.DjangoFilterBackend',),
-    # 'DEFAULT_AUTHENTICATION_CLASSES': (
-    #     'rest_framework.authentication.SessionAuthentication',
-    #     'rest_framework.authentication.TokenAuthentication',
-    # )
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
+    )
 }
 
 # Internationalization

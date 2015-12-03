@@ -2,6 +2,13 @@ from rest_framework import serializers
 
 from tutor_api.models import School, User, Class, Department
 
+from django.contrib.auth.hashers import make_password
+
+from django.http import HttpResponse
+from django.core.exceptions import ValidationError
+
+from rest_framework.response import Response
+
 class SchoolSerializer(serializers.HyperlinkedModelSerializer):
 	class Meta:
 		model = School
@@ -9,27 +16,10 @@ class SchoolSerializer(serializers.HyperlinkedModelSerializer):
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
 	class Meta:
-		print "HERE1"
 		model = User
 		fields = ('id', 'created', 'first_name', 'last_name', 'is_staff', 
 			'is_active', 'is_superuser','email', 'phone', 'password', 'username')
 		extra_kwargs = {'password': {'write_only': True}}
-	# def update(self, attrs, instance=None):
-	# 	print type(attrs);
-	# 	password = attrs.pop('password', None)
-
-	# 	if instance:
-	# 	# Update an existing customer
-	# 		for key, val in attrs:
-	# 			setattr(user, key, val)
-	# 	else:
-	# 	# Create a new customer
-	# 		user = User(**attrs)
-	# 	if password:
-	# 		user.set_password(password)
-
-	# 	user.save()
-	# 	return user
 	def create(self, validated_data):
 		print 'here'
 		user = User(**validated_data)
@@ -37,8 +27,7 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
 		user.save()
 		return user
 	def update(self, instance, validated_data):
-		print instance.password
-		print validated_data
+		temp = instance
 		instance.first_name = validated_data.get('first_name', instance.first_name)
 		instance.last_name = validated_data.get('last_name', instance.last_name)
 		instance.is_staff = validated_data.get('is_staff', instance.is_staff)
@@ -47,7 +36,19 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
 		instance.email = validated_data.get('email', instance.email)
 		instance.phone = validated_data.get('phone', instance.phone)
 		instance.username = validated_data.get('username', instance.username)
-		instance.password = validated_data.get('password', make_password(instance.first_name))
+		# instance.password = make_password(validated_data.get('password', instance.first_name))
+		instance.password = instance.password
+		user = User.objects.get(username=instance.username)
+		if(user.check_password(str(validated_data.get('password')))):
+			instance.save()
+		else:
+			instance=temp
+			# return Response({
+			# 	'password': 'The password was incorrect.'
+			# }, status=401)
+			# raise ValidationError({
+			# 	'password': 'The password was incorrect.'
+			# })
 		return instance
 
 class ClassSerializer(serializers.ModelSerializer):
