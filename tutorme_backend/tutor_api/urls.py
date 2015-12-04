@@ -32,4 +32,10 @@ urlpatterns= [
     url(r'^tutor_api/appointments/(?P<pk>[0-9]+)/$', 
         views.AppointmentDetail.as_view(),
         name='appointment-detail'),
+    url(r'^tutor_api/tutor/$', 
+        views.TutorList.as_view(),
+        name='tutor-list'),
+    url(r'^tutor_api/tutor/(?P<pk>[0-9]+)/$', 
+        views.TutorDetail.as_view(),
+        name='tutor-detail'),
 ]
