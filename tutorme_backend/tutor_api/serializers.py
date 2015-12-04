@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from tutor_api.models import School, User, Class, Department, Appointment
+from tutor_api.models import School, User, Class, Department, Appointment, Tutor
 
 from django.contrib.auth.hashers import make_password
 
@@ -78,3 +78,10 @@ class AppointmentSerializer(serializers.ModelSerializer):
 		model = Appointment
 		fields = ('id', 'created', 'aClass', 'time', 'location', 'notes',
 			'tutor', 'tutee')
+
+class TutorSerializer(serializers.ModelSerializer):
+	aClass = serializers.HyperlinkedRelatedField(queryset=Class.objects.all(), read_only=False, view_name='class-detail')
+	user = serializers.HyperlinkedRelatedField(queryset=User.objects.all(), read_only=False, view_name='user-detail', lookup_field='username')
+	class Meta:
+		model = Tutor
+		fields = ('id', 'created', 'aClass', 'user')

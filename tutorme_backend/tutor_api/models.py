@@ -72,3 +72,8 @@ class Appointment(models.Model):
 	time = models.DateTimeField()
 	location = models.TextField()
 	notes = models.TextField()
+
+class Tutor(models.Model):
+	created = models.DateTimeField(auto_now_add=True)
+	aClass = models.ForeignKey(Class, related_name='tutoring')
+	user = models.ForeignKey(User, related_name='tutoring', to_field='username')

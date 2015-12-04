@@ -4,9 +4,11 @@ from rest_framework import generics, filters, permissions
 
 from django.shortcuts import render
 
-from tutor_api.models import School, User, Class, Department, Appointment
+from tutor_api.models import School, User, Class, Department, Appointment, Tutor
 
-from tutor_api.serializers import SchoolSerializer, UserSerializer, ClassSerializer, DepartmentSerializer, AppointmentSerializer
+from tutor_api.serializers import SchoolSerializer, UserSerializer, \
+			ClassSerializer, DepartmentSerializer, \
+			AppointmentSerializer, TutorSerializer
 
 # Create your views here.
 
@@ -85,3 +87,16 @@ class AppointmentList(generics.ListCreateAPIView):
 class AppointmentDetail(generics.RetrieveUpdateDestroyAPIView):
 	queryset = Appointment.objects.all()
 	serializer_class = AppointmentSerializer
+
+class TutorList(generics.ListCreateAPIView):
+	queryset = Tutor.objects.all()
+	serializer_class = TutorSerializer
+	filter_backends = (filters.DjangoFilterBackend, filters.OrderingFilter, filters.SearchFilter)
+	filter_fields = ('id', 'aClass__number', 'aClass__school__name', 'user__username')
+	ordering_fields = '__all__'
+	ordering = ('id')
+	search_fields= ('aClass__number', 'aClass__school__name', 'user__username')
+
+class TutorDetail(generics.RetrieveUpdateDestroyAPIView):
+	queryset = Tutor.objects.all()
+	serializer_class = TutorSerializer
