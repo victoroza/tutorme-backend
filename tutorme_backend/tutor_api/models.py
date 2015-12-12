@@ -39,6 +39,7 @@ class School(models.Model):
 	created = models.DateTimeField(auto_now_add=True)
 	name = models.TextField(unique=True)
 	zipCode = models.IntegerField()
+	picture = models.TextField(default="http://comps.canstockphoto.com/can-stock-photo_csp16035165.jpg")
 	def __unicode__(self):
 		return self.name
 
@@ -46,6 +47,7 @@ class User(AbstractUser):
 	objects = MyUserManager()
 	created = models.DateTimeField(auto_now_add=True)
 	phone = models.BigIntegerField()
+	picture = models.TextField(default="http://previews.123rf.com/images/kritchanut/kritchanut1406/kritchanut140600093/29213195-Male-silhouette-avatar-profile-picture-Stock-Vector-profile.jpg")
 	class Meta:
 		db_table = 'auth_user'
 

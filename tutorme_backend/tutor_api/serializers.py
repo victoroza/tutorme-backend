@@ -12,13 +12,13 @@ from rest_framework.response import Response
 class SchoolSerializer(serializers.HyperlinkedModelSerializer):
 	class Meta:
 		model = School
-		fields = ('id', 'created', 'name', 'zipCode')
+		fields = ('id', 'created', 'name', 'zipCode', 'picture')
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
 	class Meta:
 		model = User
 		fields = ('id', 'created', 'first_name', 'last_name', 'is_staff', 
-			'is_active', 'is_superuser','email', 'phone', 'password', 'username')
+			'is_active', 'is_superuser','email', 'phone', 'password', 'username', 'picture')
 		lookup_field = 'username'
 		extra_kwargs = {'password': {'write_only': True}}
 	def create(self, validated_data):
@@ -35,6 +35,7 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
 		instance.is_active = validated_data.get('is_active', instance.is_active)
 		instance.email = validated_data.get('email', instance.email)
 		instance.phone = validated_data.get('phone', instance.phone)
+		instance.picture = validated_data.get('picture', instance.picture)
 		instance.username = validated_data.get('username', instance.username)
 		# instance.password = make_password(validated_data.get('password', instance.first_name))
 		instance.password = instance.password
@@ -52,8 +53,8 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
 		return instance
 
 class ClassSerializer(serializers.ModelSerializer):
-	major = serializers.HyperlinkedRelatedField(queryset=Department.objects.all(), read_only=False, view_name='department-detail', lookup_field='shortName')
-	school = serializers.HyperlinkedRelatedField(queryset=School.objects.all(), read_only=False, view_name='school-detail')
+	# major = serializers.HyperlinkedRelatedField(queryset=Department.objects.all(), read_only=False, view_name='department-detail', lookup_field='shortName')
+	# school = serializers.HyperlinkedRelatedField(queryset=School.objects.all(), read_only=False, view_name='school-detail')
 	class Meta:
 		model = Class
 		fields = ('id', 'created', 'number', 'major', 'school')
@@ -71,17 +72,17 @@ class DepartmentSerializer(serializers.HyperlinkedModelSerializer):
 		# }
 
 class AppointmentSerializer(serializers.ModelSerializer):
-	aClass = serializers.HyperlinkedRelatedField(queryset=Class.objects.all(), read_only=False, view_name='class-detail')
-	tutee = serializers.HyperlinkedRelatedField(queryset=User.objects.all(), read_only=False, view_name='user-detail', lookup_field='username')
-	tutor = serializers.HyperlinkedRelatedField(queryset=User.objects.all(), read_only=False, view_name='user-detail', lookup_field='username')
+	# aClass = serializers.HyperlinkedRelatedField(queryset=Class.objects.all(), read_only=False, view_name='class-detail')
+	# tutee = serializers.HyperlinkedRelatedField(queryset=User.objects.all(), read_only=False, view_name='user-detail', lookup_field='username')
+	# tutor = serializers.HyperlinkedRelatedField(queryset=User.objects.all(), read_only=False, view_name='user-detail', lookup_field='username')
 	class Meta:
 		model = Appointment
 		fields = ('id', 'created', 'aClass', 'time', 'location', 'notes',
 			'tutor', 'tutee')
 
 class TutorSerializer(serializers.ModelSerializer):
-	aClass = serializers.HyperlinkedRelatedField(queryset=Class.objects.all(), read_only=False, view_name='class-detail')
-	user = serializers.HyperlinkedRelatedField(queryset=User.objects.all(), read_only=False, view_name='user-detail', lookup_field='username')
+	# aClass = serializers.HyperlinkedRelatedField(queryset=Class.objects.all(), read_only=False, view_name='class-detail')
+	# user = serializers.HyperlinkedRelatedField(queryset=User.objects.all(), read_only=False, view_name='user-detail', lookup_field='username')
 	class Meta:
 		model = Tutor
 		fields = ('id', 'created', 'aClass', 'user')
