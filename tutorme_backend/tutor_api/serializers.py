@@ -78,7 +78,7 @@ class AppointmentSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = Appointment
 		fields = ('id', 'created', 'aClass', 'time', 'location', 'notes',
-			'tutor', 'tutee')
+			'tutor', 'tutee', 'confirmed_tutor')
 
 class TutorSerializer(serializers.ModelSerializer):
 	# aClass = serializers.HyperlinkedRelatedField(queryset=Class.objects.all(), read_only=False, view_name='class-detail')

@@ -74,6 +74,7 @@ class Appointment(models.Model):
 	time = models.DateTimeField()
 	location = models.TextField()
 	notes = models.TextField()
+	confirmed_tutor = models.BooleanField(default=False)
 
 class Tutor(models.Model):
 	created = models.DateTimeField(auto_now_add=True)
