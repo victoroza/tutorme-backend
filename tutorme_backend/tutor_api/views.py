@@ -79,10 +79,10 @@ class AppointmentList(generics.ListCreateAPIView):
 	queryset = Appointment.objects.all()
 	serializer_class = AppointmentSerializer
 	filter_backends = (filters.DjangoFilterBackend, filters.OrderingFilter, filters.SearchFilter)
-	filter_fields = ('id', 'aClass__number', 'tutee__username', 'tutor__username', 'time', 'location', 'notes')
+	filter_fields = ('id', 'aClass__number', 'tutee__username', 'tutor__username', 'time', 'location', 'notes', 'confirmed_tutor')
 	ordering_fields = '__all__'
 	ordering = ('id')
-	search_fields= ('aClass__number', 'tutee__username', 'tutor__username', 'time', 'location', 'notes')
+	search_fields= ('aClass__number', 'tutee__username', 'tutor__username', 'time', 'location', 'notes', 'confirmed_tutor')
 
 class AppointmentDetail(generics.RetrieveUpdateDestroyAPIView):
 	queryset = Appointment.objects.all()
