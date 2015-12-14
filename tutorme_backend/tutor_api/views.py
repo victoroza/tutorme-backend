@@ -92,10 +92,10 @@ class TutorList(generics.ListCreateAPIView):
 	queryset = Tutor.objects.all()
 	serializer_class = TutorSerializer
 	filter_backends = (filters.DjangoFilterBackend, filters.OrderingFilter, filters.SearchFilter)
-	filter_fields = ('id', 'aClass__number', 'aClass__school__name', 'user__username')
+	filter_fields = ('id', 'aClass__number', 'aClass__school__name', 'user__username', 'aClass__id')
 	ordering_fields = '__all__'
 	ordering = ('id')
-	search_fields= ('aClass__number', 'aClass__school__name', 'user__username')
+	search_fields= ('aClass__number', 'aClass__school__name', 'user__username', 'aClass__id')
 
 class TutorDetail(generics.RetrieveUpdateDestroyAPIView):
 	queryset = Tutor.objects.all()
